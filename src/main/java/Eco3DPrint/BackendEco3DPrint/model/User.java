@@ -5,6 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import java.util.Collection;
+
 @Entity
 public class User {
     @Id
@@ -15,13 +17,20 @@ public class User {
     private String lastname;
     private String email;
     private String password;
-
+    private Collection<Model> models;
     public User() {
-
     }
 
     public int getId() {
         return id;
+    }
+
+    public User(String username, String name, String lastname, String email, String password) {
+        this.username = username;
+        this.name = name;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
     }
 
     public String getUsername() {

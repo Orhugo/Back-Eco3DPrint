@@ -1,9 +1,7 @@
 package Eco3DPrint.BackendEco3DPrint.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import org.hibernate.annotations.Type;
 
 import java.util.Collection;
 
@@ -17,6 +15,7 @@ public class User {
     private String lastname;
     private String email;
     private String password;
+    @OneToMany
     private Collection<Model> models;
     public User() {
     }

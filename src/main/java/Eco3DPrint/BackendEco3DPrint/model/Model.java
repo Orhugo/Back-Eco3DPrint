@@ -1,9 +1,6 @@
 package Eco3DPrint.BackendEco3DPrint.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Model {
@@ -14,6 +11,7 @@ public class Model {
     private String description;
     private String cathegory;
     private String tags;
+    @ManyToOne
     private User author;
 
     public Model() {

@@ -1,7 +1,7 @@
 package Eco3DPrint.BackendEco3DPrint.controller;
 
 import Eco3DPrint.BackendEco3DPrint.model.User;
-import Eco3DPrint.BackendEco3DPrint.service.UserService;
+import Eco3DPrint.BackendEco3DPrint.service.userService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

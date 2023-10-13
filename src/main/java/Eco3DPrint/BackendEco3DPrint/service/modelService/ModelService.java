@@ -1,5 +1,6 @@
-package Eco3DPrint.BackendEco3DPrint.service;
+package Eco3DPrint.BackendEco3DPrint.service.modelService;
 
+import Eco3DPrint.BackendEco3DPrint.model.Model;
 import Eco3DPrint.BackendEco3DPrint.model.User;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Component;
@@ -8,11 +9,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public interface UserService {
+public interface ModelService {
     /**
      * Saves all given entities.
      *
-     * @param user must not be {@literal null} nor must it contain {@literal null}.
+     * @param model must not be {@literal null} nor must it contain {@literal null}.
      * @return the saved entities; will never be {@literal null}. The returned {@literal Iterable} will have the same size
      *         as the {@literal Iterable} passed as an argument.
      * @throws IllegalArgumentException in case the given {@link Iterable entities} or one of its entities is
@@ -21,7 +22,7 @@ public interface UserService {
      *           attribute with a different value from that found in the persistence store. Also thrown if at least one
      *           entity is assumed to be present but does not exist in the database.
      */
-    public User saveUser(User user);
+    public Model saveModel(Model model);
 
     /**
      * Retrieves an entity by its id.
@@ -30,14 +31,14 @@ public interface UserService {
      * @return the entity with the given id or {@literal Optional#empty()} if none found.
      * @throws IllegalArgumentException if {@literal id} is {@literal null}.
      */
-    public Optional<User> getUserbyId(int id);
+    public Optional<Model> getModelbyId(int id);
 
-    public void deleteUserbyId(int id);
+    public void deleteModelbyId(int id);
 
     /**
      * Returns all instances of the type.
      *
      * @return all entities
      */
-    public List<User> getAllUsers();
+    public List<Model> getAllModels();
 }

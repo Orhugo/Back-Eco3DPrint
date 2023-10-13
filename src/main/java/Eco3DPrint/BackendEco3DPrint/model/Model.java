@@ -13,6 +13,8 @@ public class Model {
     private String tags;
     @ManyToOne
     private User author;
+    @OneToOne
+    private PrintSettings printSettings;
 
     public Model() {
     }

@@ -14,6 +14,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/add")
     public String add(@RequestBody User user) {
         userService.saveUser(user);

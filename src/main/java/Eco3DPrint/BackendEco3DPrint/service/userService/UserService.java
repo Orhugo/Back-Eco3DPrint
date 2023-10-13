@@ -1,5 +1,7 @@
 package Eco3DPrint.BackendEco3DPrint.service.userService;
 
+import Eco3DPrint.BackendEco3DPrint.model.Login;
+import Eco3DPrint.BackendEco3DPrint.model.LoginMessage;
 import Eco3DPrint.BackendEco3DPrint.model.User;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Component;
@@ -48,4 +50,6 @@ public interface UserService {
      * @return all entities
      */
     public List<User> getAllUsers();
+
+    public LoginMessage loginUser(Login login);
 }

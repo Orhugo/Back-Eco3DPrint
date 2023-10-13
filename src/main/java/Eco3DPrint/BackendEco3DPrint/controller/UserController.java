@@ -1,8 +1,11 @@
 package Eco3DPrint.BackendEco3DPrint.controller;
 
+import Eco3DPrint.BackendEco3DPrint.model.Login;
+import Eco3DPrint.BackendEco3DPrint.model.LoginMessage;
 import Eco3DPrint.BackendEco3DPrint.model.User;
 import Eco3DPrint.BackendEco3DPrint.service.userService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,5 +35,12 @@ public class UserController {
     @GetMapping("/getAll")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
+    }
+
+    @CrossOrigin(origins = "http://localhost:5173")
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody Login login){
+        LoginMessage signingIn = userService.loginUser(login);
+        return ResponseEntity.ok(signingIn);
     }
 }

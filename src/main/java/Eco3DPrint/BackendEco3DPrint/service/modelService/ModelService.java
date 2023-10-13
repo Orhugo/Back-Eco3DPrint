@@ -33,6 +33,14 @@ public interface ModelService {
      */
     public Optional<Model> getModelbyId(int id);
 
+    /**
+     * Deletes the entity with the given id.
+     * <p>
+     * If the entity is not found in the persistence store it is silently ignored.
+     *
+     * @param id must not be {@literal null}.
+     * @throws IllegalArgumentException in case the given {@literal id} is {@literal null}
+     */
     public void deleteModelbyId(int id);
 
     /**

@@ -23,8 +23,15 @@ public class UserController {
         userService.saveUser(user);
         return "new User added";
     }
+
+    @CrossOrigin(origins = "https://localhost:5173")
     @GetMapping("/getUser")
     public Optional<User> getUserbyId(@RequestParam int id){return userService.getUserbyId(id);}
+
+    @CrossOrigin(origins = "https://localhost:5173")
+    @GetMapping("/getUserByEmail")
+    public Optional<User> getUserByEmail(@RequestParam String email){return userService.getUserByEmail(email);}
+
 
     @DeleteMapping("/deleteUser")
     public String deleteUserbyId(@RequestParam int id){
@@ -39,8 +46,15 @@ public class UserController {
 
     @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody Login login){
+    public ResponseEntity<?> loginUser(@RequestBody Login login) {
+        // Validate credentials and get user information
         LoginMessage signingIn = userService.loginUser(login);
+        Optional<User> user = userService.getUserByEmail(login.getEmail());
+
+        if (signingIn.getStatus()) {
+            signingIn.setUser(user.orElse(null));
+        }
+
         return ResponseEntity.ok(signingIn);
     }
 }

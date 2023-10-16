@@ -34,15 +34,21 @@ public class UserServiceImple implements UserService {
 
     @Override
     public LoginMessage loginUser(Login login){
-        User user1 = userRepository.findByEmail(login.getEmail());
-        String password = login.getPassword();
-        String passwordInDatabase = user1.getPassword();
-        boolean isPasswordRight = password.equals(passwordInDatabase);
-        if(isPasswordRight){
-            Optional<User> user = userRepository.findOneByEmailAndPassword(login.getEmail(), passwordInDatabase);
-            return new LoginMessage("Login Success", true);
+        Optional<User> user1 = userRepository.findByEmail(login.getEmail());
+        if(user1.isPresent()){
+            User user = user1.get();
+            String password = login.getPassword();
+            String passwordInDatabase = user.getPassword();
+            boolean isPasswordRight = password.equals(passwordInDatabase);
+            if(isPasswordRight){
+                return new LoginMessage("Login Success", true, user);
+            }
         }
-        return new LoginMessage("Login Failed", false);
+
+        return new LoginMessage("Login Failed", false, null);
     }
+
+    @Override
+    public Optional<User> getUserByEmail(String email){return userRepository.findByEmail(email);}
 
 }

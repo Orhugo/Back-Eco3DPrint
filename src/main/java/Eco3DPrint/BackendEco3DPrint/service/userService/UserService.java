@@ -52,4 +52,6 @@ public interface UserService {
     public List<User> getAllUsers();
 
     public LoginMessage loginUser(Login login);
+
+    public Optional<User> getUserByEmail(String email);
 }

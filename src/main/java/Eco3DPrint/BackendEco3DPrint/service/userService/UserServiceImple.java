@@ -5,6 +5,7 @@ import Eco3DPrint.BackendEco3DPrint.model.LoginMessage;
 import Eco3DPrint.BackendEco3DPrint.model.User;
 import Eco3DPrint.BackendEco3DPrint.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,8 +17,11 @@ public class UserServiceImple implements UserService {
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Override
     public User saveUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -34,12 +38,12 @@ public class UserServiceImple implements UserService {
 
     @Override
     public LoginMessage loginUser(Login login){
-        Optional<User> user1 = userRepository.findByEmail(login.getEmail());
-        if(user1.isPresent()){
-            User user = user1.get();
-            String password = login.getPassword();
-            String passwordInDatabase = user.getPassword();
-            boolean isPasswordRight = password.equals(passwordInDatabase);
+        Optional<User> userOptional = userRepository.findByEmail(login.getEmail());
+        if(userOptional.isPresent()){
+            User user = userOptional.get();
+            String rawPassword = login.getPassword();
+            String encodedPassword = user.getPassword();
+            boolean isPasswordRight = passwordEncoder.matches(rawPassword, encodedPassword);
             if(isPasswordRight){
                 return new LoginMessage("Login Success", true, user);
             }

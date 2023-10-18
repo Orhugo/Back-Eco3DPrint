@@ -11,9 +11,9 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class StorageConfig {
-    private String accessKey = "AKIAYGMJM2XTKZSUE3QY";
+    private String accessKey = "";
 
-    private String secretKey = "Qnqp8bLadIxgNHxjj/m9vA2wH040moxUzOruTall";
+    private String secretKey = "";
 
     private String region = "eu-west-3";
 

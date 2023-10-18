@@ -51,7 +51,18 @@ public interface UserService {
      */
     public List<User> getAllUsers();
 
+    /**
+     * Returns the message after trying to login ("Login success/failed, boolean, user)
+     * @param login of type Login which is mail and password
+     * @return LoginMessage
+     */
     public LoginMessage loginUser(Login login);
 
+    /**
+     * Retrieves an optional user by their email address.
+     *
+     * @param email The email address of the user to retrieve.
+     * @return An {@link Optional} containing the user if found, or an empty {@link Optional} otherwise.
+     */
     public Optional<User> getUserByEmail(String email);
 }

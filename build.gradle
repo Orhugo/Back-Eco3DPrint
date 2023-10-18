@@ -21,6 +21,7 @@ dependencies {
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	implementation 'com.amazonaws:aws-java-sdk-s3:1.12.54'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'com.amazonaws:aws-java-sdk-s3:1.12.54'
 }
 
 tasks.named('test') {

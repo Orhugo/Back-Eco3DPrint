@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
+@SpringBootApplication
 public class BackendEco3DPrintApplication {
 
 	public static void main(String[] args) {

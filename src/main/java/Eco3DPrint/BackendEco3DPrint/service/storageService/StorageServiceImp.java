@@ -47,6 +47,11 @@ public class StorageServiceImp implements StorageService{
         return "File deleted: " + fileName;
     }
 
+    @Override
+    public String getFileUrl(String key) {
+        return s3Client.getUrl(bucketName, key).toString();
+    }
+
     private File convertMultiPartFileToFile(MultipartFile file){
         File convertedFile = new File(file.getOriginalFilename());
         try(FileOutputStream fos = new FileOutputStream(convertedFile)){

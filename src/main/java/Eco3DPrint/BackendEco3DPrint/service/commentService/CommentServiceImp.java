@@ -11,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CommentServiceImp implements CommentService {
@@ -42,6 +44,29 @@ public class CommentServiceImp implements CommentService {
     @Override
     public ResponseEntity<List<Comment>> getAllComments() {
         return new ResponseEntity<>(commentRepository.findAll(), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<Comment>> getCommentsByModelId(int modelId){
+        Model model = modelRepository.findById(modelId).orElse(null);
+
+        if(model == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        List<Comment> comments = commentRepository.findByModelId(modelId);
+        return new ResponseEntity<>(comments, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Boolean> deleteComment(long commentId) {
+        Optional<Comment> comment = commentRepository.findById(commentId);
+        if(comment.isPresent()) {
+            commentRepository.delete(comment.get());
+            return new ResponseEntity<>(Boolean.TRUE, HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(Boolean.FALSE, HttpStatus.NOT_FOUND);
+        }
     }
 }
 

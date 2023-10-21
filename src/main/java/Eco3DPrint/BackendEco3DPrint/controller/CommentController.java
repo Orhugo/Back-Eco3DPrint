@@ -25,7 +25,7 @@ public class CommentController {
         return commentService.getAllComments();
     }
 
-    @GetMapping("/get{modelId}")
+    @GetMapping("/get/{modelId}")
     public ResponseEntity<List<Comment>> getCommentsByModelId(@PathVariable int modelId) {
         return commentService.getCommentsByModelId(modelId);
     }

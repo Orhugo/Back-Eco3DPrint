@@ -14,5 +14,7 @@ public interface CommentService {
     ResponseEntity<Comment> updateComment(long commentId, String updatedContent);
     ResponseEntity<Comment> likeComment(long commentId);
     ResponseEntity<Comment> dislikeComment(long commentId);
+    ResponseEntity<Comment> postReply(long parentCommentId, Comment reply) throws Exception;
+    ResponseEntity<List<Comment>> getRepliesToComment(long parentCommentId);
 }
 

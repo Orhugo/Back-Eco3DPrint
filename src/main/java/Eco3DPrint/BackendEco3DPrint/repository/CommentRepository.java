@@ -12,4 +12,7 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query("SELECT c FROM Comment c WHERE c.model.id = :modelId")
     List<Comment> findByModelId(@Param("modelId") int modelId);
+
+    @Query("SELECT c FROM Comment c WHERE c.parentComment.id = :parentCommentId")
+    List<Comment> findByParentCommentId(@Param("parentCommentId") long parentCommentId);
 }

@@ -33,6 +33,11 @@ public class Comment {
     @Column(name = "like_counter")
     private int likeCounter;
 
+    @ManyToOne
+    @JoinColumn(name = "parent_comment_id")
+    private Comment parentComment;
+
+
     public Comment() {
 
     }
@@ -41,6 +46,14 @@ public class Comment {
         this.user = user;
         this.model = model;
         this.content = content;
+        this.createdAt = Date.from(Instant.now());
+    }
+
+    public Comment(User user, Model model, String content, Comment parentComment){
+        this.user = user;
+        this.model = model;
+        this.content = content;
+        this.parentComment = parentComment;
         this.createdAt = Date.from(Instant.now());
     }
 
@@ -98,6 +111,14 @@ public class Comment {
 
     public void setLikeCounter(int likeCounter) {
         this.likeCounter = likeCounter;
+    }
+
+    public Comment getParentComment() {
+        return parentComment;
+    }
+
+    public void setParentComment(Comment parentComment) {
+        this.parentComment = parentComment;
     }
 
     @PrePersist

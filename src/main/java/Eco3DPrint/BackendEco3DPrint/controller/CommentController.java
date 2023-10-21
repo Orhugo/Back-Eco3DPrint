@@ -30,24 +30,34 @@ public class CommentController {
         return commentService.getCommentsByModelId(modelId);
     }
 
-    @DeleteMapping("/delete{commentId}")
+    @DeleteMapping("/delete/{commentId}")
     public ResponseEntity<Boolean> deleteComment(@PathVariable long commentId) {
         return commentService.deleteComment(commentId);
     }
 
-    @PutMapping("/update{commentId}")
+    @PutMapping("/update/{commentId}")
     public ResponseEntity<Comment> updateComment(@PathVariable long commentId, @RequestBody String updatedContent) {
         return commentService.updateComment(commentId, updatedContent);
     }
 
-    @PostMapping("/{commentId}/like")
+    @PostMapping("/like/{commentId}")
     public ResponseEntity<Comment> likeComment(@PathVariable long commentId) {
         return commentService.likeComment(commentId);
     }
 
-    @PostMapping("/{commentId}/dislike")
+    @PostMapping("/dislike/{commentId}")
     public ResponseEntity<Comment> dislikeComment(@PathVariable long commentId) {
         return commentService.dislikeComment(commentId);
+    }
+
+    @PostMapping("/reply/{parentCommentId}")
+    public ResponseEntity<Comment> postReplyToComment(@PathVariable int parentCommentId, @RequestBody Comment reply) throws Exception {
+        return commentService.postReply(parentCommentId, reply);
+    }
+
+    @GetMapping("/replies/{parentCommentId}")
+    public ResponseEntity<List<Comment>> getRepliesToComment(@PathVariable int parentCommentId) {
+        return commentService.getRepliesToComment(parentCommentId);
     }
 
 }

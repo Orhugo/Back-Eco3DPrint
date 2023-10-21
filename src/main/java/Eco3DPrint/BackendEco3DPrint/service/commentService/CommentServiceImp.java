@@ -107,5 +107,26 @@ public class CommentServiceImp implements CommentService {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @Override
+    public ResponseEntity<Comment> postReply(long parentCommentId, Comment reply) {
+        Optional<Comment> parentComment = commentRepository.findById(parentCommentId);
+        if (parentComment.isPresent()) {
+            if (parentComment.get().getModel().getId() != reply.getModel().getId()) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            reply.setParentComment(parentComment.get());
+            Comment newComment = commentRepository.save(reply);
+            return new ResponseEntity<>(newComment, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @Override
+    public ResponseEntity<List<Comment>> getRepliesToComment(long parentCommentId) {
+        List<Comment> replies = commentRepository.findByParentCommentId(parentCommentId);
+        return new ResponseEntity<>(replies, HttpStatus.OK);
+    }
 }
 

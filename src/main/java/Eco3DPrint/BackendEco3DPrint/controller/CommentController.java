@@ -35,5 +35,20 @@ public class CommentController {
         return commentService.deleteComment(commentId);
     }
 
+    @PutMapping("/update{commentId}")
+    public ResponseEntity<Comment> updateComment(@PathVariable long commentId, @RequestBody String updatedContent) {
+        return commentService.updateComment(commentId, updatedContent);
+    }
+
+    @PostMapping("/{commentId}/like")
+    public ResponseEntity<Comment> likeComment(@PathVariable long commentId) {
+        return commentService.likeComment(commentId);
+    }
+
+    @PostMapping("/{commentId}/dislike")
+    public ResponseEntity<Comment> dislikeComment(@PathVariable long commentId) {
+        return commentService.dislikeComment(commentId);
+    }
+
 }
 

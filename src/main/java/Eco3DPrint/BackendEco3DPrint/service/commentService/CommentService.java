@@ -11,5 +11,8 @@ public interface CommentService {
     ResponseEntity<List<Comment>> getAllComments();
     ResponseEntity<List<Comment>> getCommentsByModelId(int modelId);
     ResponseEntity<Boolean> deleteComment(long commentId);
+    ResponseEntity<Comment> updateComment(long commentId, String updatedContent);
+    ResponseEntity<Comment> likeComment(long commentId);
+    ResponseEntity<Comment> dislikeComment(long commentId);
 }
 

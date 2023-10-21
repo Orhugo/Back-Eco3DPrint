@@ -11,7 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,15 +30,12 @@ public class CommentServiceImp implements CommentService {
     public ResponseEntity<Comment> createComment(Comment comment) {
         User user = userRepository.findById(comment.getUser().getId()).orElse(null);
         Model model = modelRepository.findById(comment.getModel().getId()).orElse(null);
-
         if (user == null || model == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
         comment.setUser(user);
         comment.setModel(model);
         commentRepository.save(comment);
-
         return new ResponseEntity<>(comment, HttpStatus.CREATED);
     }
 
@@ -49,11 +47,9 @@ public class CommentServiceImp implements CommentService {
     @Override
     public ResponseEntity<List<Comment>> getCommentsByModelId(int modelId){
         Model model = modelRepository.findById(modelId).orElse(null);
-
         if(model == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
         List<Comment> comments = commentRepository.findByModelId(modelId);
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
@@ -66,6 +62,49 @@ public class CommentServiceImp implements CommentService {
             return new ResponseEntity<>(Boolean.TRUE, HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(Boolean.FALSE, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @Override
+    public ResponseEntity<Comment> updateComment(long commentId, String updatedContent) {
+        Optional<Comment> existingComment = commentRepository.findById(commentId);
+        if(existingComment.isPresent()){
+            Comment commentToUpdate = existingComment.get();
+            commentToUpdate.setContent(updatedContent);
+            commentToUpdate.setUpdatedAt(Date.from(Instant.now()));
+            commentRepository.save(commentToUpdate);
+            return new ResponseEntity<>(commentToUpdate, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @Override
+    public ResponseEntity<Comment> likeComment(long commentId) {
+        Optional<Comment> existingComment = commentRepository.findById(commentId);
+        if(existingComment.isPresent()){
+            Comment comment = existingComment.get();
+            comment.setLikeCounter(comment.getLikeCounter() + 1);
+            commentRepository.save(comment);
+            return new ResponseEntity<>(comment, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @Override
+    public ResponseEntity<Comment> dislikeComment(long commentId) {
+        Optional<Comment> existingComment = commentRepository.findById(commentId);
+        if(existingComment.isPresent()){
+            Comment comment = existingComment.get();
+            comment.setLikeCounter(comment.getLikeCounter() - 1);
+            commentRepository.save(comment);
+            return new ResponseEntity<>(comment, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 }

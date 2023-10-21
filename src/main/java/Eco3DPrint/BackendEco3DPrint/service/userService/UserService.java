@@ -1,5 +1,7 @@
 package Eco3DPrint.BackendEco3DPrint.service.userService;
 
+import Eco3DPrint.BackendEco3DPrint.model.Login;
+import Eco3DPrint.BackendEco3DPrint.model.LoginMessage;
 import Eco3DPrint.BackendEco3DPrint.model.User;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Component;
@@ -48,4 +50,19 @@ public interface UserService {
      * @return all entities
      */
     public List<User> getAllUsers();
+
+    /**
+     * Returns the message after trying to login ("Login success/failed, boolean, user)
+     * @param login of type Login which is mail and password
+     * @return LoginMessage
+     */
+    public LoginMessage loginUser(Login login);
+
+    /**
+     * Retrieves an optional user by their email address.
+     *
+     * @param email The email address of the user to retrieve.
+     * @return An {@link Optional} containing the user if found, or an empty {@link Optional} otherwise.
+     */
+    public Optional<User> getUserByEmail(String email);
 }

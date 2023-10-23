@@ -3,9 +3,11 @@ package Eco3DPrint.BackendEco3DPrint.service.commentService;
 import Eco3DPrint.BackendEco3DPrint.model.Comment;
 import Eco3DPrint.BackendEco3DPrint.model.Model;
 import Eco3DPrint.BackendEco3DPrint.model.User;
+import Eco3DPrint.BackendEco3DPrint.model.UserVote;
 import Eco3DPrint.BackendEco3DPrint.repository.CommentRepository;
 import Eco3DPrint.BackendEco3DPrint.repository.ModelRepository;
 import Eco3DPrint.BackendEco3DPrint.repository.UserRepository;
+import Eco3DPrint.BackendEco3DPrint.repository.UserVoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,8 @@ public class CommentServiceImp implements CommentService {
     private UserRepository userRepository;
     @Autowired
     private ModelRepository modelRepository;
+    @Autowired
+    private UserVoteRepository userVoteRepository;
 
     @Override
     public ResponseEntity<Comment> createComment(Comment comment) {
@@ -81,31 +85,63 @@ public class CommentServiceImp implements CommentService {
     }
 
     @Override
-    public ResponseEntity<Comment> likeComment(long commentId) {
-        Optional<Comment> existingComment = commentRepository.findById(commentId);
+    public ResponseEntity<Comment> likeComment(int commentId, int userId) {
+        Optional<UserVote> userVote = userVoteRepository.findByCommentIdAndUserId(commentId, userId);
+        if(userVote.isPresent()){
+            if(userVote.get().getVoteType() == UserVote.VoteType.LIKE){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            else{
+                Optional<Comment> existingComment = commentRepository.findById((long) commentId);
+                if(existingComment.isPresent()){
+                    Comment comment = existingComment.get();
+                    comment.setLikeCounter(comment.getLikeCounter() + 2);
+                    commentRepository.save(comment);
+                    userVoteRepository.delete(userVote.get());
+                    userVoteRepository.save(new UserVote(userId, commentId, UserVote.VoteType.LIKE));
+                    return new ResponseEntity<>(comment, HttpStatus.OK);
+                }
+            }
+        }
+        Optional<Comment> existingComment = commentRepository.findById((long) commentId);
         if(existingComment.isPresent()){
             Comment comment = existingComment.get();
             comment.setLikeCounter(comment.getLikeCounter() + 1);
             commentRepository.save(comment);
+            userVoteRepository.save(new UserVote(userId, commentId, UserVote.VoteType.LIKE));
             return new ResponseEntity<>(comment, HttpStatus.OK);
         }
-        else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @Override
-    public ResponseEntity<Comment> dislikeComment(long commentId) {
-        Optional<Comment> existingComment = commentRepository.findById(commentId);
+    public ResponseEntity<Comment> dislikeComment(int commentId, int userId) {
+        Optional<UserVote> userVote = userVoteRepository.findByCommentIdAndUserId(commentId, userId);
+        if(userVote.isPresent()){
+            if(userVote.get().getVoteType() == UserVote.VoteType.DISLIKE){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            else{
+                Optional<Comment> existingComment = commentRepository.findById((long) commentId);
+                if(existingComment.isPresent()){
+                    Comment comment = existingComment.get();
+                    comment.setLikeCounter(comment.getLikeCounter() - 2);
+                    commentRepository.save(comment);
+                    userVoteRepository.delete(userVote.get());
+                    userVoteRepository.save(new UserVote(userId, commentId, UserVote.VoteType.DISLIKE));
+                    return new ResponseEntity<>(comment, HttpStatus.OK);
+                }
+            }
+        }
+        Optional<Comment> existingComment = commentRepository.findById((long) commentId);
         if(existingComment.isPresent()){
             Comment comment = existingComment.get();
             comment.setLikeCounter(comment.getLikeCounter() - 1);
             commentRepository.save(comment);
+            userVoteRepository.save(new UserVote(userId, commentId, UserVote.VoteType.DISLIKE));
             return new ResponseEntity<>(comment, HttpStatus.OK);
         }
-        else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @Override

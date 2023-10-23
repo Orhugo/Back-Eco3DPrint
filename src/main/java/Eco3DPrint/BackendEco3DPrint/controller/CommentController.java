@@ -41,13 +41,13 @@ public class CommentController {
     }
 
     @PostMapping("/like/{commentId}")
-    public ResponseEntity<Comment> likeComment(@PathVariable long commentId) {
-        return commentService.likeComment(commentId);
+    public ResponseEntity<Comment> likeComment(@PathVariable int commentId, @RequestBody int userId) {
+        return commentService.likeComment(commentId, userId);
     }
 
     @PostMapping("/dislike/{commentId}")
-    public ResponseEntity<Comment> dislikeComment(@PathVariable long commentId) {
-        return commentService.dislikeComment(commentId);
+    public ResponseEntity<Comment> dislikeComment(@PathVariable int commentId, @RequestBody int userId) {
+        return commentService.dislikeComment(commentId, userId);
     }
 
     @PostMapping("/reply/{parentCommentId}")

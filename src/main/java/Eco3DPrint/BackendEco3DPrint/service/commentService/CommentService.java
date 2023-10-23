@@ -12,8 +12,8 @@ public interface CommentService {
     ResponseEntity<List<Comment>> getCommentsByModelId(int modelId);
     ResponseEntity<Boolean> deleteComment(long commentId);
     ResponseEntity<Comment> updateComment(long commentId, String updatedContent);
-    ResponseEntity<Comment> likeComment(long commentId);
-    ResponseEntity<Comment> dislikeComment(long commentId);
+    ResponseEntity<Comment> likeComment(int commentId, int userId);
+    ResponseEntity<Comment> dislikeComment(int commentId, int userId);
     ResponseEntity<Comment> postReply(long parentCommentId, Comment reply) throws Exception;
     ResponseEntity<List<Comment>> getRepliesToComment(long parentCommentId);
 }

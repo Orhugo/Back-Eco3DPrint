@@ -37,4 +37,4 @@ out/
 .vscode/
 
 ### AWS CREDENTIALS ###
-application.yml
+credentials.json

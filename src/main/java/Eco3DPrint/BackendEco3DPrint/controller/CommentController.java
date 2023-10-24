@@ -36,18 +36,23 @@ public class CommentController {
     }
 
     @PutMapping("/update/{commentId}")
-    public ResponseEntity<Comment> updateComment(@PathVariable long commentId, @RequestBody String updatedContent) {
-        return commentService.updateComment(commentId, updatedContent);
+    public ResponseEntity<Comment> updateComment(@PathVariable long commentId, @RequestBody Comment comment) {
+        return commentService.updateComment(commentId, comment);
     }
 
     @PostMapping("/like/{commentId}")
-    public ResponseEntity<Comment> likeComment(@PathVariable int commentId, @RequestBody int userId) {
+    public ResponseEntity<Comment> likeComment(@PathVariable int commentId, @RequestParam int userId) {
         return commentService.likeComment(commentId, userId);
     }
 
-    @PostMapping("/dislike/{commentId}")
-    public ResponseEntity<Comment> dislikeComment(@PathVariable int commentId, @RequestBody int userId) {
+    @DeleteMapping("/dislike/{commentId}")
+    public ResponseEntity<Boolean> dislikeComment(@PathVariable int commentId, @RequestParam int userId) {
         return commentService.dislikeComment(commentId, userId);
+    }
+
+    @GetMapping("/liked/{userId}")
+    public ResponseEntity<List<Integer>> getLikedComments(@PathVariable int userId){
+        return commentService.getLikedComments(userId);
     }
 
     @PostMapping("/reply/{parentCommentId}")

@@ -16,22 +16,14 @@ public class UserVote {
     @Column(name = "comment_id")
     private int commentId;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "vote_type")
-    private VoteType voteType;
-
     public UserVote() {
     }
 
-    public UserVote(int userId, int commentId, VoteType voteType){
+    public UserVote(int userId, int commentId){
         this.userId = userId;
         this.commentId = commentId;
-        this.voteType = voteType;
     }
 
-    public enum VoteType {
-        LIKE, DISLIKE
-    }
 
     public int getId() {
         return id;
@@ -57,11 +49,4 @@ public class UserVote {
         this.commentId = commentId;
     }
 
-    public VoteType getVoteType() {
-        return voteType;
-    }
-
-    public void setVoteType(VoteType voteType) {
-        this.voteType = voteType;
-    }
 }

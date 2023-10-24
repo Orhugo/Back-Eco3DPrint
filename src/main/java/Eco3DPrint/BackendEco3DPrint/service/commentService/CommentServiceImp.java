@@ -62,6 +62,8 @@ public class CommentServiceImp implements CommentService {
     public ResponseEntity<Boolean> deleteComment(long commentId) {
         Optional<Comment> comment = commentRepository.findById(commentId);
         if(comment.isPresent()) {
+            Optional<List<UserVote>> userVotes = userVoteRepository.findByCommentId(comment.get().getId());
+            userVotes.ifPresent(votes -> userVoteRepository.deleteAll(votes));
             commentRepository.delete(comment.get());
             return new ResponseEntity<>(Boolean.TRUE, HttpStatus.NO_CONTENT);
         } else {
@@ -70,11 +72,11 @@ public class CommentServiceImp implements CommentService {
     }
 
     @Override
-    public ResponseEntity<Comment> updateComment(long commentId, String updatedContent) {
+    public ResponseEntity<Comment> updateComment(long commentId, Comment comment) {
         Optional<Comment> existingComment = commentRepository.findById(commentId);
         if(existingComment.isPresent()){
             Comment commentToUpdate = existingComment.get();
-            commentToUpdate.setContent(updatedContent);
+            commentToUpdate.setContent(comment.getContent());
             commentToUpdate.setUpdatedAt(Date.from(Instant.now()));
             commentRepository.save(commentToUpdate);
             return new ResponseEntity<>(commentToUpdate, HttpStatus.OK);
@@ -87,61 +89,18 @@ public class CommentServiceImp implements CommentService {
     @Override
     public ResponseEntity<Comment> likeComment(int commentId, int userId) {
         Optional<UserVote> userVote = userVoteRepository.findByCommentIdAndUserId(commentId, userId);
-        if(userVote.isPresent()){
-            if(userVote.get().getVoteType() == UserVote.VoteType.LIKE){
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (userVote.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            Optional<Comment> existingComment = commentRepository.findById((long) commentId);
+            if (existingComment.isPresent()) {
+                Comment comment = existingComment.get();
+                comment.setLikeCounter(comment.getLikeCounter() + 1);
+                userVoteRepository.save(new UserVote(userId, commentId));
+                return new ResponseEntity<>(comment, HttpStatus.OK);
             }
-            else{
-                Optional<Comment> existingComment = commentRepository.findById((long) commentId);
-                if(existingComment.isPresent()){
-                    Comment comment = existingComment.get();
-                    comment.setLikeCounter(comment.getLikeCounter() + 2);
-                    commentRepository.save(comment);
-                    userVoteRepository.delete(userVote.get());
-                    userVoteRepository.save(new UserVote(userId, commentId, UserVote.VoteType.LIKE));
-                    return new ResponseEntity<>(comment, HttpStatus.OK);
-                }
-            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        Optional<Comment> existingComment = commentRepository.findById((long) commentId);
-        if(existingComment.isPresent()){
-            Comment comment = existingComment.get();
-            comment.setLikeCounter(comment.getLikeCounter() + 1);
-            commentRepository.save(comment);
-            userVoteRepository.save(new UserVote(userId, commentId, UserVote.VoteType.LIKE));
-            return new ResponseEntity<>(comment, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    @Override
-    public ResponseEntity<Comment> dislikeComment(int commentId, int userId) {
-        Optional<UserVote> userVote = userVoteRepository.findByCommentIdAndUserId(commentId, userId);
-        if(userVote.isPresent()){
-            if(userVote.get().getVoteType() == UserVote.VoteType.DISLIKE){
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-            else{
-                Optional<Comment> existingComment = commentRepository.findById((long) commentId);
-                if(existingComment.isPresent()){
-                    Comment comment = existingComment.get();
-                    comment.setLikeCounter(comment.getLikeCounter() - 2);
-                    commentRepository.save(comment);
-                    userVoteRepository.delete(userVote.get());
-                    userVoteRepository.save(new UserVote(userId, commentId, UserVote.VoteType.DISLIKE));
-                    return new ResponseEntity<>(comment, HttpStatus.OK);
-                }
-            }
-        }
-        Optional<Comment> existingComment = commentRepository.findById((long) commentId);
-        if(existingComment.isPresent()){
-            Comment comment = existingComment.get();
-            comment.setLikeCounter(comment.getLikeCounter() - 1);
-            commentRepository.save(comment);
-            userVoteRepository.save(new UserVote(userId, commentId, UserVote.VoteType.DISLIKE));
-            return new ResponseEntity<>(comment, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @Override
@@ -163,6 +122,29 @@ public class CommentServiceImp implements CommentService {
     public ResponseEntity<List<Comment>> getRepliesToComment(long parentCommentId) {
         List<Comment> replies = commentRepository.findByParentCommentId(parentCommentId);
         return new ResponseEntity<>(replies, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Boolean> dislikeComment(int commentId, int userId) {
+        Optional<UserVote> userVote = userVoteRepository.findByCommentIdAndUserId(commentId, userId);
+        if (userVote.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            Optional<Comment> existingComment = commentRepository.findById((long) commentId);
+            if (existingComment.isPresent()) {
+                Comment comment = existingComment.get();
+                comment.setLikeCounter(comment.getLikeCounter() - 1);
+                userVoteRepository.delete(userVote.get());
+                return new ResponseEntity<>(true, HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @Override
+    public ResponseEntity<List<Integer>> getLikedComments(int userId) {
+        Optional<List<Integer>> likedCommentsForUser = userVoteRepository.findByUserId(userId);
+        return likedCommentsForUser.map(comments -> new ResponseEntity<>(comments, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }
 

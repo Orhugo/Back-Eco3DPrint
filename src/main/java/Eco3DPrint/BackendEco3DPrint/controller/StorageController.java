@@ -34,4 +34,9 @@ public class StorageController {
     public ResponseEntity<String> deleteFile(@RequestParam String fileName){
         return new ResponseEntity<String>(storageService.deleteFile(fileName),HttpStatus.OK);
     }
+
+    @GetMapping("/getFileUrl")
+    public String getFileUrl(@RequestParam String key) {
+        return storageService.getFileUrl(key);
+    }
 }

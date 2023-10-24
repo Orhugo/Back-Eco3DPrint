@@ -39,6 +39,33 @@ public class UserController {
         return "User deleted";
     }
 
+    @PostMapping("/updateUser")
+    public String updateUser(@RequestBody User user) {
+        Optional<User> optionalUser = userService.getUserbyId(user.getId());
+        if (optionalUser.isPresent()) {
+            User existingUser = optionalUser.get();
+            if (user.getName() != null) {
+                existingUser.setName(user.getName());
+            }
+            if (user.getLastname() != null) {
+                existingUser.setLastname(user.getLastname());
+            }
+            if (user.getEmail() != null) {
+                existingUser.setEmail(user.getEmail());
+            }
+            if (user.getUsername() != null) {
+                existingUser.setUsername(user.getUsername());
+            }
+            if (user.getPassword() != null) {
+                existingUser.setPassword(user.getPassword());
+            }
+            userService.saveUser(existingUser);
+            return "User updated";
+        } else {
+            return "No User found";
+        }
+    }
+
     @GetMapping("/getAll")
     public List<User> getAllUsers() {
         return userService.getAllUsers();

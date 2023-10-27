@@ -34,4 +34,7 @@ public class ModelController {
     public List<Model> getAllModels() {
         return modelService.getAllModels();
     }
+
+    @GetMapping("getLastModelId")
+    public int getLastModelId() { return modelService.getLastModelId().getId(); }
 }

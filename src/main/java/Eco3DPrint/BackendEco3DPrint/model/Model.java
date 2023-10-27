@@ -26,6 +26,10 @@ public class Model {
         this.tags = tags;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getTitle() {
         return title;
     }

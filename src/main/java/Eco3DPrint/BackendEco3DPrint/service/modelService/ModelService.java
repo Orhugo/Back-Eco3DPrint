@@ -49,4 +49,6 @@ public interface ModelService {
      * @return all entities
      */
     public List<Model> getAllModels();
+
+    public Model getLastModelId();
 }

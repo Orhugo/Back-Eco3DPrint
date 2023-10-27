@@ -29,4 +29,7 @@ public class ModelServiceImp implements ModelService {
     public List<Model> getAllModels() {
         return modelRepository.findAll();
     }
+
+    @Override
+    public Model getLastModelId() {return modelRepository.findFirstByOrderByIdDesc();}
 }

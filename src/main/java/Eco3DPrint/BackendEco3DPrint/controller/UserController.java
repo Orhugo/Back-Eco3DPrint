@@ -2,8 +2,8 @@ package Eco3DPrint.BackendEco3DPrint.controller;
 
 import Eco3DPrint.BackendEco3DPrint.model.Login;
 import Eco3DPrint.BackendEco3DPrint.model.LoginMessage;
-import Eco3DPrint.BackendEco3DPrint.model.User;
-import Eco3DPrint.BackendEco3DPrint.service.userService.UserService;
+import Eco3DPrint.BackendEco3DPrint.model.Usuario;
+import Eco3DPrint.BackendEco3DPrint.service.userService.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,44 +15,44 @@ import java.util.Optional;
 @RequestMapping("/users")
 public class UserController {
     @Autowired
-    private UserService userService;
+    private UsuarioService usuarioService;
 
     @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/add")
-    public String add(@RequestBody User user) {
-        userService.saveUser(user);
+    public String add(@RequestBody Usuario user) {
+        usuarioService.saveUser(user);
         return "new User added";
     }
 
     @CrossOrigin(origins = "https://localhost:5173")
     @GetMapping("/getUser")
-    public Optional<User> getUserbyId(@RequestParam int id){return userService.getUserbyId(id);}
+    public Optional<Usuario> getUserbyId(@RequestParam int id){return usuarioService.getUserbyId(id);}
 
     @CrossOrigin(origins = "https://localhost:5173")
     @GetMapping("/getUserByEmail")
-    public Optional<User> getUserByEmail(@RequestParam String email){return userService.getUserByEmail(email);}
+    public Optional<Usuario> getUserByEmail(@RequestParam String email){return usuarioService.getUserByEmail(email);}
 
 
     @DeleteMapping("/deleteUser")
     public String deleteUserbyId(@RequestParam int id){
-        userService.deleteUserbyId(id);
+        usuarioService.deleteUserbyId(id);
         return "User deleted";
     }
 
     @GetMapping("/getAll")
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public List<Usuario> getAllUsers() {
+        return usuarioService.getAllUsers();
     }
 
     @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody Login login) {
         // Validate credentials and get user information
-        LoginMessage signingIn = userService.loginUser(login);
-        Optional<User> user = userService.getUserByEmail(login.getEmail());
+        LoginMessage signingIn = usuarioService.loginUser(login);
+        Optional<Usuario> usuario = usuarioService.getUserByEmail(login.getEmail());
 
         if (signingIn.getStatus()) {
-            signingIn.setUser(user.orElse(null));
+            signingIn.setUser(usuario.orElse(null));
         }
 
         return ResponseEntity.ok(signingIn);

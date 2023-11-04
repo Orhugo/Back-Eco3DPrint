@@ -17,8 +17,9 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter'
+	runtimeOnly 'org.postgresql:postgresql'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	runtimeOnly 'com.mysql:mysql-connector-j'
 	implementation 'com.amazonaws:aws-java-sdk-s3:1.12.54'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'javax.servlet:javax.servlet-api:4.0.1'

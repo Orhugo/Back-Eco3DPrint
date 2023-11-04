@@ -1,7 +1,7 @@
 package Eco3DPrint.BackendEco3DPrint.service.modelService;
 
 import Eco3DPrint.BackendEco3DPrint.model.Model;
-import Eco3DPrint.BackendEco3DPrint.model.User;
+import Eco3DPrint.BackendEco3DPrint.model.Usuario;
 import Eco3DPrint.BackendEco3DPrint.repository.ModelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

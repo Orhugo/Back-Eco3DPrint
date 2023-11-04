@@ -1,7 +1,7 @@
 package Eco3DPrint.BackendEco3DPrint.service.modelService;
 
 import Eco3DPrint.BackendEco3DPrint.model.Model;
-import Eco3DPrint.BackendEco3DPrint.model.User;
+import Eco3DPrint.BackendEco3DPrint.model.Usuario;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Component;
 

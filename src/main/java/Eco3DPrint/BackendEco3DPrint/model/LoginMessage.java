@@ -3,7 +3,7 @@ package Eco3DPrint.BackendEco3DPrint.model;
 public class LoginMessage {
     private String message;
     private Boolean status;
-    private User user;
+    private Usuario user;
 
     public String getMessage() {
         return message;
@@ -21,15 +21,15 @@ public class LoginMessage {
         this.status = status;
     }
 
-    public User getUser() {
+    public Usuario getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Usuario user) {
         this.user = user;
     }
 
-    public LoginMessage(String message, Boolean status, User user) {
+    public LoginMessage(String message, Boolean status, Usuario user) {
         this.message = message;
         this.status = status;
         this.user = user;

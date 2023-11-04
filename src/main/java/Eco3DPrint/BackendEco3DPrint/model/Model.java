@@ -12,7 +12,7 @@ public class Model {
     private String cathegory;
     private String tags;
     @ManyToOne
-    private User author;
+    private Usuario author;
     @OneToOne
     private PrintSettings printSettings;
 

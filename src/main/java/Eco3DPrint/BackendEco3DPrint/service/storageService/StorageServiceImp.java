@@ -16,7 +16,7 @@ import java.io.IOException;
 
 @Service
 public class StorageServiceImp implements StorageService{
-    private String bucketName= "stl-models-bucket";
+    private String bucketName= "volumepin";
     private StorageConfig storageConfig = new StorageConfig();
     @Autowired
     private AmazonS3 s3Client;
@@ -24,7 +24,7 @@ public class StorageServiceImp implements StorageService{
     @Override
     public String uploadFile(MultipartFile file){
         File fileObj = convertMultiPartFileToFile(file);
-        String fileName = System.currentTimeMillis()+"_"+file.getOriginalFilename();
+        String fileName = file.getOriginalFilename();
         s3Client.putObject(new PutObjectRequest(bucketName,fileName,fileObj));
         fileObj.delete();
         return "File uploaded " + fileName;

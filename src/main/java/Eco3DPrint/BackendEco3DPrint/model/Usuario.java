@@ -1,12 +1,11 @@
 package Eco3DPrint.BackendEco3DPrint.model;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Type;
 
 import java.util.Collection;
 
 @Entity
-public class User {
+public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -17,14 +16,14 @@ public class User {
     private String password;
     @OneToMany
     private Collection<Model> models;
-    public User() {
+    public Usuario() {
     }
 
     public int getId() {
         return id;
     }
 
-    public User(String username, String name, String lastname, String email, String password) {
+    public Usuario(String username, String name, String lastname, String email, String password) {
         this.username = username;
         this.name = name;
         this.lastname = lastname;

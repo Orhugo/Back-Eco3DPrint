@@ -13,7 +13,8 @@ public class UrlController {
 
     @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/add")
-    public Url add(@RequestBody Url url) {
-        return urlService.crearModelo(url);
+    public String add(@RequestBody Url url) {
+        urlService.crearUrl(url);
+        return "new url added";
     }
 }

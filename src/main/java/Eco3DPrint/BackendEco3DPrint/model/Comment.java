@@ -13,7 +13,7 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Usuario user;
 
     @ManyToOne
     @JoinColumn(name = "model_id")
@@ -42,14 +42,14 @@ public class Comment {
 
     }
 
-    public Comment(User user, Model model, String content){
+    public Comment(Usuario user, Model model, String content){
         this.user = user;
         this.model = model;
         this.content = content;
         this.createdAt = Date.from(Instant.now());
     }
 
-    public Comment(User user, Model model, String content, Comment parentComment){
+    public Comment(Usuario user, Model model, String content, Comment parentComment){
         this.user = user;
         this.model = model;
         this.content = content;
@@ -65,11 +65,11 @@ public class Comment {
         this.id = id;
     }
 
-    public User getUser() {
+    public Usuario getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Usuario user) {
         this.user = user;
     }
 

@@ -62,10 +62,6 @@ public class Model {
         this.tags = tags;
     }
 
-    public int getId() {
-        return id;
-    }
-
     public void setId(int id) {
         this.id = id;
     }

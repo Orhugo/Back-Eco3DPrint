@@ -18,7 +18,7 @@ public class UrlServiceImp implements UrlService{
         private UrlRepository urlRepository;
 
         @Override
-        public Url crearModelo(Url url) {
+        public Url crearUrl(Url url) {
             return urlRepository.save(url);
         }
     }

@@ -17,7 +17,7 @@ import java.io.IOException;
 @Service
 public class StorageServiceImp implements StorageService{
     private String bucketName= "volumepin";
-    private StorageConfig storageConfig = new StorageConfig();
+    //private StorageConfig storageConfig = new StorageConfig();
     @Autowired
     private AmazonS3 s3Client;
 

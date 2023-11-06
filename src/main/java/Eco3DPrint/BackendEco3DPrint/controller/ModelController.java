@@ -17,9 +17,9 @@ public class ModelController {
     private ModelService modelService;
 
     @PostMapping("/add")
-    public String add(@RequestBody Model model) {
+    public int add(@RequestBody Model model) {
         modelService.saveModel(model);
-        return "new Model added";
+        return modelService.getLastModelId();
     }
     @GetMapping("/getModel")
     public Optional<Model> getModelbyId(@RequestParam int id){return modelService.getModelbyId(id);}
@@ -36,5 +36,5 @@ public class ModelController {
     }
 
     @GetMapping("getLastModelId")
-    public int getLastModelId() { return modelService.getLastModelId().getId(); }
+    public int getLastModelId() { return modelService.getLastModelId(); }
 }

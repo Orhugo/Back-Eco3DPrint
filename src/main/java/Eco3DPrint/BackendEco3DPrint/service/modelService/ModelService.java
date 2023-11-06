@@ -50,5 +50,5 @@ public interface ModelService {
      */
     public List<Model> getAllModels();
 
-    public Model getLastModelId();
+    public int getLastModelId();
 }

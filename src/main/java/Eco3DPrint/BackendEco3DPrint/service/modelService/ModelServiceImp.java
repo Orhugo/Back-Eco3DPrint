@@ -31,5 +31,5 @@ public class ModelServiceImp implements ModelService {
     }
 
     @Override
-    public Model getLastModelId() {return modelRepository.findFirstByOrderByIdDesc();}
+    public int getLastModelId() {return modelRepository.findFirstByOrderByIdDesc().getId();}
 }

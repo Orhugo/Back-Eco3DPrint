@@ -12,7 +12,7 @@ public class Model {
     private String cathegory;
     private String tags;
     @ManyToOne
-    private User author;
+    private Usuario author;
     @OneToOne
     private PrintSettings printSettings;
 
@@ -24,6 +24,10 @@ public class Model {
         this.description = description;
         this.cathegory = cathegory;
         this.tags = tags;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -56,5 +60,9 @@ public class Model {
 
     public void setTags(String tags) {
         this.tags = tags;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

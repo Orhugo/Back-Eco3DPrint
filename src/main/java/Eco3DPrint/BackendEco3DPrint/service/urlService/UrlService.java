@@ -8,5 +8,7 @@ import java.util.Optional;
 @Component
 public interface UrlService {
 
-    public Url crearModelo(Url url);
+    public Url crearUrl(Url url);
+
+    public List<Url> getAllUrl();
 }

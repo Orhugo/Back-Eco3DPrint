@@ -62,6 +62,8 @@ public class CommentServiceImp implements CommentService {
     public ResponseEntity<Boolean> deleteComment(long commentId) {
         Optional<Comment> comment = commentRepository.findById(commentId);
         if(comment.isPresent()) {
+            List<Comment> childComments = commentRepository.findByParentCommentId(comment.get().getId());
+            commentRepository.deleteAll(childComments);
             Optional<List<UserVote>> userVotes = userVoteRepository.findByCommentId(comment.get().getId());
             userVotes.ifPresent(votes -> userVoteRepository.deleteAll(votes));
             commentRepository.delete(comment.get());

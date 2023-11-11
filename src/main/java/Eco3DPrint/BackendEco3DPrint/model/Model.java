@@ -11,6 +11,7 @@ public class Model {
     private String description;
     private String cathegory;
     private String tags;
+    private String mainUrl;
     @ManyToOne
     private Usuario author;
     @OneToOne
@@ -19,11 +20,12 @@ public class Model {
     public Model() {
     }
 
-    public Model(String title, String description, String cathegory, String tags) {
+    public Model(String title, String description, String cathegory, String tags, String mainUrl) {
         this.title = title;
         this.description = description;
         this.cathegory = cathegory;
         this.tags = tags;
+        this.mainUrl = mainUrl;
     }
 
     public int getId() {
@@ -64,5 +66,11 @@ public class Model {
 
     public void setId(int id) {
         this.id = id;
+    }
+    public String getmainUrl() {
+        return mainUrl;
+    }
+    public void setmainUrl(String mainUrl) {
+        this.mainUrl = mainUrl;
     }
 }

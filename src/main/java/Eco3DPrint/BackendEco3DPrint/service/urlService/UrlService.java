@@ -9,4 +9,6 @@ import java.util.Optional;
 public interface UrlService {
 
     public Url crearUrl(Url url);
+
+    public List<Url> getAllUrl();
 }

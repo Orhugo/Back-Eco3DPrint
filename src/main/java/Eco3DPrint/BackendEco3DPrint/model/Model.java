@@ -61,4 +61,8 @@ public class Model {
     public void setTags(String tags) {
         this.tags = tags;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

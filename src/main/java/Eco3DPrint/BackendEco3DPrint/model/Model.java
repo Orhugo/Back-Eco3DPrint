@@ -11,20 +11,22 @@ public class Model {
     private String description;
     private String cathegory;
     private String tags;
-    private String mainUrl;
     @ManyToOne
     private Usuario author;
     @OneToOne
     private PrintSettings printSettings;
+    private String mainUrl;
 
     public Model() {
     }
 
-    public Model(String title, String description, String cathegory, String tags, String mainUrl) {
+    public Model(String title, String description, String cathegory, String tags, Usuario author, PrintSettings printSettings, String mainUrl) {
         this.title = title;
         this.description = description;
         this.cathegory = cathegory;
         this.tags = tags;
+        this.author = author;
+        this.printSettings = printSettings;
         this.mainUrl = mainUrl;
     }
 
@@ -67,10 +69,22 @@ public class Model {
     public void setId(int id) {
         this.id = id;
     }
-    public String getmainUrl() {
+    public PrintSettings getPrintSettings() {
+        return printSettings;
+    }
+    public void setPrintSettings(PrintSettings printSettings) {
+        this.printSettings = printSettings;
+    }
+    public Usuario getAuthor() {
+        return author;
+    }
+    public void setAuthor(Usuario author) {
+        this.author = author;
+    }
+    public String getMainUrl() {
         return mainUrl;
     }
-    public void setmainUrl(String mainUrl) {
+    public void setMainUrl(String mainUrl) {
         this.mainUrl = mainUrl;
     }
 }

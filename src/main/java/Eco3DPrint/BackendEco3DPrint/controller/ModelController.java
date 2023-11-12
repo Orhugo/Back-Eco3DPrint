@@ -58,4 +58,9 @@ public class ModelController {
     public ResponseEntity<Integer> likeCountForModel(@PathVariable int modelId){
         return modelService.likeCountForModel(modelId);
     }
+
+    @GetMapping("/liked/{userId}")
+    public ResponseEntity<List<Integer>> getLikedModels(@PathVariable int userId){
+        return modelService.getLikedModels(userId);
+    }
 }

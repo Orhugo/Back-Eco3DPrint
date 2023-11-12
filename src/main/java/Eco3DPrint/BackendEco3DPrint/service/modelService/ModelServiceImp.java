@@ -94,4 +94,10 @@ public class ModelServiceImp implements ModelService {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @Override
+    public ResponseEntity<List<Integer>> getLikedModels(int userId) {
+        Optional<List<Integer>> likedModelsForUser = modelVoteRepository.findByUserId(userId);
+        return likedModelsForUser.map(models -> new ResponseEntity<>(models, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
 }

@@ -76,4 +76,6 @@ public interface ModelService {
     ResponseEntity<List<Usuario>> getUsersThatLikedModel(int modelId);
 
     ResponseEntity<Integer> likeCountForModel(int modelId);
+
+    ResponseEntity<List<Integer>> getLikedModels(int userId);
 }

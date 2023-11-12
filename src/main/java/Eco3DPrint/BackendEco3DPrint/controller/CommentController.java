@@ -1,6 +1,7 @@
 package Eco3DPrint.BackendEco3DPrint.controller;
 
 import Eco3DPrint.BackendEco3DPrint.model.Comment;
+import Eco3DPrint.BackendEco3DPrint.model.Usuario;
 import Eco3DPrint.BackendEco3DPrint.service.commentService.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -53,6 +54,11 @@ public class CommentController {
     @GetMapping("/liked/{userId}")
     public ResponseEntity<List<Integer>> getLikedComments(@PathVariable int userId){
         return commentService.getLikedComments(userId);
+    }
+
+    @GetMapping("/userInteractions/{commentId}")
+    public ResponseEntity<List<Usuario>> getUsersThatLikedComment(@PathVariable int commentId){
+        return commentService.getUsersThatLikedComment(commentId);
     }
 
     @PostMapping("/reply/{parentCommentId}")

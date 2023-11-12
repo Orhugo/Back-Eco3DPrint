@@ -1,7 +1,9 @@
 package Eco3DPrint.BackendEco3DPrint.service.commentService;
 
 import Eco3DPrint.BackendEco3DPrint.model.Comment;
+import Eco3DPrint.BackendEco3DPrint.model.Usuario;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -93,4 +95,6 @@ public interface CommentService {
      * @return A ResponseEntity containing a list of reply comments to the specified parent comment.
      */
     ResponseEntity<List<Comment>> getRepliesToComment(long parentCommentId);
+
+    ResponseEntity<List<Usuario>> getUsersThatLikedComment(int commentId);
 }

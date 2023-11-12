@@ -5,6 +5,7 @@ import Eco3DPrint.BackendEco3DPrint.model.Usuario;
 import Eco3DPrint.BackendEco3DPrint.service.modelService.ModelService;
 import Eco3DPrint.BackendEco3DPrint.service.userService.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,4 +38,24 @@ public class ModelController {
 
     @GetMapping("getLastModelId")
     public int getLastModelId() { return modelService.getLastModelId().getId(); }
+
+    @PostMapping("/like/{modelId}")
+    public ResponseEntity<Model> likeModel(@PathVariable int modelId, @RequestParam int userId){
+        return modelService.likeModel(modelId, userId);
+    }
+
+    @DeleteMapping("/dislike/{modelId}")
+    public ResponseEntity<Boolean> dislikeModel(@PathVariable int modelId, @RequestParam int userId){
+        return modelService.dislikeModel(modelId, userId);
+    }
+
+    @GetMapping("/userInteractions/{modelId}")
+    public ResponseEntity<List<Usuario>> getUsersThatLikedModel(@PathVariable int modelId){
+        return modelService.getUsersThatLikedModel(modelId);
+    }
+
+    @GetMapping("likeCount/{modelId}")
+    public ResponseEntity<Integer> likeCountForModel(@PathVariable int modelId){
+        return modelService.likeCountForModel(modelId);
+    }
 }

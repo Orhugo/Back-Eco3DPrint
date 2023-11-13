@@ -17,6 +17,9 @@ public class Model {
     private PrintSettings printSettings;
     private String mainUrl;
 
+    @Column(name= "like_counter")
+    private int likeCounter;
+
     public Model() {
     }
 
@@ -86,5 +89,13 @@ public class Model {
     }
     public void setMainUrl(String mainUrl) {
         this.mainUrl = mainUrl;
+    }
+
+    public int getLikeCounter() {
+        return likeCounter;
+    }
+
+    public void setLikeCounter(int likeCounter) {
+        this.likeCounter = likeCounter;
     }
 }

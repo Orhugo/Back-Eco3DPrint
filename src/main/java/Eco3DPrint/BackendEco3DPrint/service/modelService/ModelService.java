@@ -3,6 +3,7 @@ package Eco3DPrint.BackendEco3DPrint.service.modelService;
 import Eco3DPrint.BackendEco3DPrint.model.Model;
 import Eco3DPrint.BackendEco3DPrint.model.Usuario;
 import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -51,4 +52,48 @@ public interface ModelService {
     public List<Model> getAllModels();
 
     public Model getLastModelId();
+
+    /**
+     * Likes a model with the specified identifier for the given user.
+     *
+     * @param modelId The unique identifier of the model to be liked.
+     * @param userId The unique identifier of the user performing the action.
+     * @return ResponseEntity<Model> A response entity containing the updated state of the liked model
+     * along with an HTTP status code reflecting the outcome of the operation.
+     */
+    ResponseEntity<Model> likeModel(int modelId, int userId);
+
+    /**
+     * Dislikes a model with the specified identifier for the given user.
+     *
+     * @param modelId The unique identifier of the model to be disliked.
+     * @param userId The unique identifier of the user performing the action.
+     * @return ResponseEntity<Model> A response entity containing the updated state of the disliked model
+     * along with an HTTP status code reflecting the outcome of the operation.
+     */
+    ResponseEntity<Boolean> dislikeModel(int modelId, int userId);
+
+    /**
+     * Get a list of users that liked a specific model.
+     *
+     * @param modelId The ID of the model.
+     * @return A ResponseEntity containing a list of users who liked the model.
+     */
+    ResponseEntity<List<Usuario>> getUsersThatLikedModel(int modelId);
+
+    /**
+     * Get the count of likes for a specific model.
+     *
+     * @param modelId The ID of the model.
+     * @return A ResponseEntity containing the count of likes for the model.
+     */
+    ResponseEntity<Integer> likeCountForModel(int modelId);
+
+    /**
+     * Get a list of model IDs that the user has liked.
+     *
+     * @param userId The ID of the user.
+     * @return A ResponseEntity containing a list of liked model IDs.
+     */
+    ResponseEntity<List<Integer>> getLikedModels(int userId);
 }

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 
 @Entity
-@Table(name = "user_votes")
+@Table(name = "comment_votes")
 public class CommentVote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

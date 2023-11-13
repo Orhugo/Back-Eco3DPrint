@@ -73,9 +73,27 @@ public interface ModelService {
      */
     ResponseEntity<Boolean> dislikeModel(int modelId, int userId);
 
+    /**
+     * Get a list of users that liked a specific model.
+     *
+     * @param modelId The ID of the model.
+     * @return A ResponseEntity containing a list of users who liked the model.
+     */
     ResponseEntity<List<Usuario>> getUsersThatLikedModel(int modelId);
 
+    /**
+     * Get the count of likes for a specific model.
+     *
+     * @param modelId The ID of the model.
+     * @return A ResponseEntity containing the count of likes for the model.
+     */
     ResponseEntity<Integer> likeCountForModel(int modelId);
 
+    /**
+     * Get a list of model IDs that the user has liked.
+     *
+     * @param userId The ID of the user.
+     * @return A ResponseEntity containing a list of liked model IDs.
+     */
     ResponseEntity<List<Integer>> getLikedModels(int userId);
 }

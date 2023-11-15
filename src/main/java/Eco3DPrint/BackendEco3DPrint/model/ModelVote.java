@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 
 
 @Entity
-@Table(name = "user_votes")
-public class UserVote {
+@Table(name = "model_votes")
+public class ModelVote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -13,17 +13,16 @@ public class UserVote {
     @Column(name = "user_id")
     private int userId;
 
-    @Column(name = "comment_id")
-    private int commentId;
+    @Column(name = "model_id")
+    private int modelId;
 
-    public UserVote() {
+    public ModelVote() {
     }
 
-    public UserVote(int userId, int commentId){
+    public ModelVote(int userId, int modelId){
         this.userId = userId;
-        this.commentId = commentId;
+        this.modelId = modelId;
     }
-
 
     public int getId() {
         return id;
@@ -41,12 +40,7 @@ public class UserVote {
         this.userId = userId;
     }
 
-    public int getCommentId() {
-        return commentId;
-    }
+    public int getModelId() { return modelId; }
 
-    public void setCommentId(int commentId) {
-        this.commentId = commentId;
-    }
-
+    public void setModelId(int modelId) { this.modelId = modelId; }
 }

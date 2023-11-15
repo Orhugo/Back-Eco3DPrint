@@ -20,7 +20,7 @@ public class ModelController {
     @PostMapping("/add")
     public int add(@RequestBody Model model) {
         modelService.saveModel(model);
-        return modelService.getLastModelId();
+        return modelService.getLastModelId().getId();
     }
     @GetMapping("/getModel")
     public Optional<Model> getModelbyId(@RequestParam int id){return modelService.getModelbyId(id);}

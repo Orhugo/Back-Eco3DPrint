@@ -19,7 +19,6 @@ public class ModelController {
 
     @PostMapping("/add")
     public int add(@RequestBody Model model) {
-        System.out.println(model.getCathegory());
         modelService.saveModel(model);
         return modelService.getLastModelId().getId();
     }

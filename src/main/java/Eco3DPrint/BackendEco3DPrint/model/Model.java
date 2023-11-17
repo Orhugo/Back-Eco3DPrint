@@ -71,7 +71,7 @@ public class Model {
         this.tags = tags;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     public PrintSettings getPrintSettings() {

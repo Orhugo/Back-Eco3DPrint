@@ -100,4 +100,9 @@ public class ModelServiceImp implements ModelService {
         Optional<List<Integer>> likedModelsForUser = modelVoteRepository.findByUserId(userId);
         return likedModelsForUser.map(models -> new ResponseEntity<>(models, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+    @Override
+    public List<Model> getModelsByAuthorId(int author) {
+        return (List<Model>) modelRepository.findByAuthorId(author);
+    }
 }

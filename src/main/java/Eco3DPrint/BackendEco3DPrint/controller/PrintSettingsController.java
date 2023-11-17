@@ -4,6 +4,8 @@ import Eco3DPrint.BackendEco3DPrint.model.Model;
 import Eco3DPrint.BackendEco3DPrint.model.PrintSettings;
 import Eco3DPrint.BackendEco3DPrint.service.printSettings.PrintSettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -15,9 +17,10 @@ public class PrintSettingsController {
     private PrintSettingsService printSettingsService;
 
     @PostMapping("/add")
-    public int add(@RequestBody PrintSettings printSettings) {
-        printSettingsService.savePrintSettings(printSettings);
-        return printSettingsService.getLastPrintSettingsId().getId();
+    public ResponseEntity<PrintSettings> add(@RequestBody PrintSettings printSettings) {
+        PrintSettings settings = printSettingsService.savePrintSettings(printSettings);
+        return new ResponseEntity<>(settings, HttpStatus.CREATED);
+        //return printSettingsService.getLastPrintSettingsId().getId();
     }
 
     @GetMapping("/getPrintSettings")

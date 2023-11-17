@@ -5,6 +5,7 @@ import Eco3DPrint.BackendEco3DPrint.model.Usuario;
 import Eco3DPrint.BackendEco3DPrint.service.modelService.ModelService;
 import Eco3DPrint.BackendEco3DPrint.service.userService.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +20,13 @@ public class ModelController {
 
     @PostMapping("/add")
     public int add(@RequestBody Model model) {
-        modelService.saveModel(model);
-        return modelService.getLastModelId().getId();
+        try{
+            modelService.saveModel(model);
+            return modelService.getLastModelId().getId();
+        }catch (DataIntegrityViolationException e) {
+            model.setId(null);
+            return modelService.saveModel(model).getId();
+        }
     }
     @GetMapping("/getModel")
     public Optional<Model> getModelbyId(@RequestParam int id){return modelService.getModelbyId(id);}
@@ -62,5 +68,11 @@ public class ModelController {
     @GetMapping("/liked/{userId}")
     public ResponseEntity<List<Integer>> getLikedModels(@PathVariable int userId){
         return modelService.getLikedModels(userId);
+    }
+
+    @CrossOrigin(origins = "https://localhost:5173")
+    @GetMapping("/getAuthorModels")
+    public List<Model> getAuthorModels(@RequestParam int author) {
+        return modelService.getModelsByAuthorId(author);
     }
 }

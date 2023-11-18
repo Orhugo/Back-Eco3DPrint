@@ -14,7 +14,7 @@ public class Usuario {
     private String lastname;
     private String email;
     private String password;
-    @OneToMany
+    @OneToMany(mappedBy = "author")
     private Collection<Model> models;
     public Usuario() {
     }

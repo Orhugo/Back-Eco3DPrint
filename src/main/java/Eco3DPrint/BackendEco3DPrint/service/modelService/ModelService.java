@@ -96,4 +96,6 @@ public interface ModelService {
      * @return A ResponseEntity containing a list of liked model IDs.
      */
     ResponseEntity<List<Integer>> getLikedModels(int userId);
+
+    public List<Model> getModelsByAuthorId(int author);
 }

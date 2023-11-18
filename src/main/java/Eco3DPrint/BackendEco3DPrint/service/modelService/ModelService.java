@@ -97,5 +97,5 @@ public interface ModelService {
      */
     ResponseEntity<List<Integer>> getLikedModels(int userId);
 
-    public List<Model> getModelsByAuthorId(int author);
+    public List<Model> getModelsByAuthorId(String author);
 }

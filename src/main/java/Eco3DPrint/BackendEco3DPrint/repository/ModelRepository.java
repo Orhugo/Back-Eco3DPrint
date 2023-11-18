@@ -13,6 +13,6 @@ public interface ModelRepository extends JpaRepository<Model, Integer> {
     @Query("SELECT m FROM Model m ORDER BY m.id DESC LIMIT 1")
     Model findFirstByOrderByIdDesc();
 
-    @Query("SELECT m FROM Model m WHERE m.author.id = :author_id")
-    Collection<Model> findByAuthorId(@Param("author_id") int author_id);
+    @Query("SELECT m FROM Model m WHERE m.author.username = :author_username")
+    Collection<Model> findByAuthorId(@Param("author_username") String author_username);
 }

@@ -73,7 +73,7 @@ public class ModelController {
 
     @CrossOrigin(origins = "https://localhost:5173")
     @GetMapping("/getAuthorModels")
-    public List<Model> getAuthorModels(@RequestParam int author) {
+    public List<Model> getAuthorModels(@RequestParam String author) {
         return modelService.getModelsByAuthorId(author);
     }
 }

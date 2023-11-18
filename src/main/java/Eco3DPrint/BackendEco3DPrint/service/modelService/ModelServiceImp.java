@@ -102,7 +102,7 @@ public class ModelServiceImp implements ModelService {
     }
 
     @Override
-    public List<Model> getModelsByAuthorId(int author) {
+    public List<Model> getModelsByAuthorId(String author) {
         return (List<Model>) modelRepository.findByAuthorId(author);
     }
 }

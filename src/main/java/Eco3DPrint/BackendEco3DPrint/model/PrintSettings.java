@@ -93,4 +93,8 @@ public class PrintSettings {
     public void setFilamentMaterial(String filamentMaterial) {
         this.filamentMaterial = filamentMaterial;
     }
+
+    public int getId() {
+        return id;
+    }
 }

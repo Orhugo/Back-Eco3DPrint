@@ -3,11 +3,11 @@ package Eco3DPrint.BackendEco3DPrint.service.commentService;
 import Eco3DPrint.BackendEco3DPrint.model.Comment;
 import Eco3DPrint.BackendEco3DPrint.model.Model;
 import Eco3DPrint.BackendEco3DPrint.model.Usuario;
-import Eco3DPrint.BackendEco3DPrint.model.UserVote;
+import Eco3DPrint.BackendEco3DPrint.model.CommentVote;
 import Eco3DPrint.BackendEco3DPrint.repository.CommentRepository;
 import Eco3DPrint.BackendEco3DPrint.repository.ModelRepository;
 import Eco3DPrint.BackendEco3DPrint.repository.UsuarioRepository;
-import Eco3DPrint.BackendEco3DPrint.repository.UserVoteRepository;
+import Eco3DPrint.BackendEco3DPrint.repository.CommentVoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +28,7 @@ public class CommentServiceImp implements CommentService {
     @Autowired
     private ModelRepository modelRepository;
     @Autowired
-    private UserVoteRepository userVoteRepository;
+    private CommentVoteRepository userVoteRepository;
 
     @Override
     public ResponseEntity<Comment> createComment(Comment comment) {
@@ -62,7 +62,9 @@ public class CommentServiceImp implements CommentService {
     public ResponseEntity<Boolean> deleteComment(long commentId) {
         Optional<Comment> comment = commentRepository.findById(commentId);
         if(comment.isPresent()) {
-            Optional<List<UserVote>> userVotes = userVoteRepository.findByCommentId(comment.get().getId());
+            List<Comment> childComments = commentRepository.findByParentCommentId(comment.get().getId());
+            commentRepository.deleteAll(childComments);
+            Optional<List<CommentVote>> userVotes = userVoteRepository.findByCommentId(comment.get().getId());
             userVotes.ifPresent(votes -> userVoteRepository.deleteAll(votes));
             commentRepository.delete(comment.get());
             return new ResponseEntity<>(Boolean.TRUE, HttpStatus.NO_CONTENT);
@@ -88,7 +90,7 @@ public class CommentServiceImp implements CommentService {
 
     @Override
     public ResponseEntity<Comment> likeComment(int commentId, int userId) {
-        Optional<UserVote> userVote = userVoteRepository.findByCommentIdAndUserId(commentId, userId);
+        Optional<CommentVote> userVote = userVoteRepository.findByCommentIdAndUserId(commentId, userId);
         if (userVote.isPresent()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
@@ -96,7 +98,7 @@ public class CommentServiceImp implements CommentService {
             if (existingComment.isPresent()) {
                 Comment comment = existingComment.get();
                 comment.setLikeCounter(comment.getLikeCounter() + 1);
-                userVoteRepository.save(new UserVote(userId, commentId));
+                userVoteRepository.save(new CommentVote(userId, commentId));
                 return new ResponseEntity<>(comment, HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -126,7 +128,7 @@ public class CommentServiceImp implements CommentService {
 
     @Override
     public ResponseEntity<Boolean> dislikeComment(int commentId, int userId) {
-        Optional<UserVote> userVote = userVoteRepository.findByCommentIdAndUserId(commentId, userId);
+        Optional<CommentVote> userVote = userVoteRepository.findByCommentIdAndUserId(commentId, userId);
         if (userVote.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
@@ -145,6 +147,18 @@ public class CommentServiceImp implements CommentService {
     public ResponseEntity<List<Integer>> getLikedComments(int userId) {
         Optional<List<Integer>> likedCommentsForUser = userVoteRepository.findByUserId(userId);
         return likedCommentsForUser.map(comments -> new ResponseEntity<>(comments, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @Override
+    public ResponseEntity<List<Usuario>> getUsersThatLikedComment(int commentId) {
+        Optional<List<Usuario>> userList = userVoteRepository.findUsersByCommentId(commentId);
+        if(userList.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        else{
+            List<Usuario> usersThatInteracted = userList.get();
+            return new ResponseEntity<>(usersThatInteracted, HttpStatus.OK);
+        }
     }
 }
 

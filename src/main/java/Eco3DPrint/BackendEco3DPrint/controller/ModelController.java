@@ -5,6 +5,9 @@ import Eco3DPrint.BackendEco3DPrint.model.Usuario;
 import Eco3DPrint.BackendEco3DPrint.service.modelService.ModelService;
 import Eco3DPrint.BackendEco3DPrint.service.userService.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,15 +20,18 @@ public class ModelController {
     private ModelService modelService;
 
     @PostMapping("/add")
-    public String add(@RequestBody Model model) {
-        modelService.saveModel(model);
-        return "new Model added";
+    public ResponseEntity<Model> add(@RequestBody Model model) {
+        Model elModelo = modelService.saveModel(model);
+        return new ResponseEntity<>(elModelo, HttpStatus.CREATED);
     }
+
     @GetMapping("/getModel")
-    public Optional<Model> getModelbyId(@RequestParam int id){return modelService.getModelbyId(id);}
+    public Optional<Model> getModelbyId(@RequestParam int id) {
+        return modelService.getModelbyId(id);
+    }
 
     @DeleteMapping("/deleteModel")
-    public String deleteModelbyId(@RequestParam int id){
+    public String deleteModelbyId(@RequestParam int id) {
         modelService.deleteModelbyId(id);
         return "Model deleted";
     }
@@ -36,5 +42,38 @@ public class ModelController {
     }
 
     @GetMapping("getLastModelId")
-    public int getLastModelId() { return modelService.getLastModelId().getId(); }
+    public int getLastModelId() {
+        return modelService.getLastModelId().getId();
+    }
+
+    @PostMapping("/like/{modelId}")
+    public ResponseEntity<Model> likeModel(@PathVariable int modelId, @RequestParam int userId) {
+        return modelService.likeModel(modelId, userId);
+    }
+
+    @DeleteMapping("/dislike/{modelId}")
+    public ResponseEntity<Boolean> dislikeModel(@PathVariable int modelId, @RequestParam int userId) {
+        return modelService.dislikeModel(modelId, userId);
+    }
+
+    @GetMapping("/userInteractions/{modelId}")
+    public ResponseEntity<List<Usuario>> getUsersThatLikedModel(@PathVariable int modelId) {
+        return modelService.getUsersThatLikedModel(modelId);
+    }
+
+    @GetMapping("likeCount/{modelId}")
+    public ResponseEntity<Integer> likeCountForModel(@PathVariable int modelId) {
+        return modelService.likeCountForModel(modelId);
+    }
+
+    @GetMapping("/liked/{userId}")
+    public ResponseEntity<List<Integer>> getLikedModels(@PathVariable int userId) {
+        return modelService.getLikedModels(userId);
+    }
+
+    @CrossOrigin(origins = "https://localhost:5173")
+    @GetMapping("/getAuthorModels")
+    public List<Model> getAuthorModels(@RequestParam String author) {
+        return modelService.getModelsByAuthorId(author);
+    }
 }

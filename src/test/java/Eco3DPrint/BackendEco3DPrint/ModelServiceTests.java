@@ -13,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+
+import java.util.Objects;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -23,10 +25,15 @@ public class ModelServiceTests {
 
     @Autowired
     private ModelRepository modelRepository;
+
+    @Autowired
+    private ModelVoteRepository modelVoteRepository;
+
     @BeforeEach
     public void setUp() {
         // Puedes realizar configuraciones adicionales antes de cada prueba si es necesario
     }
+
     @Test
     public void testSaveModel() {
         // Crear un nuevo modelo para guardar
@@ -47,22 +54,15 @@ public class ModelServiceTests {
 
     @Test
     public void testLikeModel() {
-        ModelRepository modelRepository = mock(ModelRepository.class);
-        ModelVoteRepository modelVoteRepository = mock(ModelVoteRepository.class);
-        ModelServiceImp modelService = new ModelServiceImp();
-
-        int modelId = 1;
+        Model modelToSave = new Model();
+        modelToSave.setTitle("TestLikeTitle");
+        modelToSave.setDescription("TestLikeDescription");
+        Model savedModel = modelService.saveModel(modelToSave);
+        int id = savedModel.getId();
         int userId = 1;
-
-        when(modelVoteRepository.findByModelIdAndUserId(eq(modelId), eq(userId)))
-                .thenReturn(Optional.empty());
-
-        when(modelRepository.findById(eq(modelId))).thenReturn(Optional.of(new Model()));
-
-        ResponseEntity<Model> responseEntity = modelService.likeModel(modelId, userId);
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(1, responseEntity.getBody().getLikeCounter());
+        modelService.likeModel(id, userId);
+        Integer num = 1;
+        assertEquals(Optional.of(num), modelVoteRepository.findLikesByModelId(id));
     }
 }
-
 

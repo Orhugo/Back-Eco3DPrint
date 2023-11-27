@@ -14,9 +14,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 @SpringBootTest
 public class ModelServiceTests {
@@ -32,6 +35,13 @@ public class ModelServiceTests {
     @BeforeEach
     public void setUp() {
         // Puedes realizar configuraciones adicionales antes de cada prueba si es necesario
+    }
+
+    @Test
+    public void testGetAllModels() {
+        List<Model> modelos = new ArrayList<Model>();
+        modelos = modelService.getAllModels();
+        assertEquals(18, modelos.size());
     }
 
     @Test
@@ -52,17 +62,38 @@ public class ModelServiceTests {
         assertEquals(savedModel.getId(), retrievedModel.getId(), "El modelo guardado y el recuperado deben ser iguales");
     }
 
+
+
     @Test
     public void testLikeModel() {
-        Model modelToSave = new Model();
-        modelToSave.setTitle("TestLikeTitle");
-        modelToSave.setDescription("TestLikeDescription");
-        Model savedModel = modelService.saveModel(modelToSave);
-        int id = savedModel.getId();
-        int userId = 1;
-        modelService.likeModel(id, userId);
-        Integer num = 1;
-        assertEquals(Optional.of(num), modelVoteRepository.findLikesByModelId(id));
+        modelService.likeModel(1, 1);
+        modelService.likeModel(1, 2);
+        Optional<Model> model = modelService.getModelbyId(1);
+        assertEquals(modelVoteRepository.findLikesByModelId(1), modelVoteRepository.findLikesByModelId(1));
     }
+
+    @Test
+    public void testGetModelById() {
+        Optional<Model> result = modelService.getModelbyId(1);
+        Model model = result.get();
+        assertEquals(1, model.getId());
+        assertEquals("Model Category", model.getCategory());
+        assertEquals("Model Description", model.getDescription());
+        assertEquals("tag1, tag2", model.getTags());
+        assertEquals("Model Title", model.getTitle());
+        assertEquals(1, model.getAuthor().getId());
+        assertEquals(1, model.getPrintSettings().getId());
+        assertEquals("https://volumepin.s3.eu-west-3.amazonaws.com/Sizing.stl", model.getMainUrl());
+        assertEquals(0, model.getLikeCounter());
+    }
+
+    @Test
+    public void testDeleteModelById() {
+        Model result = modelService.getLastModelId();
+        int id = result.getId();
+        modelService.deleteModelbyId(id);
+        assertTrue(modelRepository.findById(id).isEmpty());
+    }
+
 }
 

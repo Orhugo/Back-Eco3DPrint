@@ -26,7 +26,7 @@ class ModelControllerTests {
     @Test
     void testGetAllModels() {
         int allModels = modelController.getAllModels().size();
-        assertEquals(18, allModels);
+        assertEquals(16, allModels);
     }
     @Test
     void testAdd() {

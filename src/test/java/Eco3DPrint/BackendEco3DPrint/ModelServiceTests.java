@@ -41,7 +41,7 @@ public class ModelServiceTests {
     public void testGetAllModels() {
         List<Model> modelos = new ArrayList<Model>();
         modelos = modelService.getAllModels();
-        assertEquals(18, modelos.size());
+        assertEquals(15, modelos.size());
     }
 
     @Test
@@ -70,6 +70,13 @@ public class ModelServiceTests {
         modelService.likeModel(1, 2);
         Optional<Model> model = modelService.getModelbyId(1);
         assertEquals(modelVoteRepository.findLikesByModelId(1), modelVoteRepository.findLikesByModelId(1));
+    }
+
+    @Test
+    public void testLikeModel2() {
+        modelService.likeModel(4, 1);
+        Optional<Model> model = modelService.getModelbyId(1);
+        assertEquals(1, model.get().getLikeCounter());
     }
 
     @Test

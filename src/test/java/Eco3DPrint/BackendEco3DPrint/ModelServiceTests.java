@@ -32,11 +32,6 @@ public class ModelServiceTests {
     @Autowired
     private ModelVoteRepository modelVoteRepository;
 
-    @BeforeEach
-    public void setUp() {
-        // Puedes realizar configuraciones adicionales antes de cada prueba si es necesario
-    }
-
     @Test
     public void testGetAllModels() {
         List<Model> modelos = new ArrayList<Model>();
@@ -46,23 +41,14 @@ public class ModelServiceTests {
 
     @Test
     public void testSaveModel() {
-        // Crear un nuevo modelo para guardar
         Model modelToSave = new Model();
-        // Puedes configurar el modelo según tus necesidades
         modelToSave.setTitle("TestTitle");
         modelToSave.setDescription("TestDescription");
-        // Guardar el modelo utilizando el servicio
         Model savedModel = modelService.saveModel(modelToSave);
-        // Verificar que el modelo guardado no sea nulo
         Assertions.assertNotNull(savedModel, "El modelo no debería ser nulo");
-        // Obtener el modelo directamente del repositorio para comparar
         Model retrievedModel = modelRepository.findById(savedModel.getId()).orElse(null);
-
-        // Verificar que el modelo guardado sea igual al recuperado
         assertEquals(savedModel.getId(), retrievedModel.getId(), "El modelo guardado y el recuperado deben ser iguales");
     }
-
-
 
     @Test
     public void testLikeModel() {

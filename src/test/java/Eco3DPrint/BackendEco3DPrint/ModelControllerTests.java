@@ -30,29 +30,19 @@ class ModelControllerTests {
     }
     @Test
     void testAdd() {
-        // Crear un modelo para la prueba
         Model model = new Model("pruebaAVD", null, null, null, null, null, null);
 
-        // Llamar al método del controlador
         ResponseEntity<Model> responseEntity = modelController.add(model);
 
-        // Verificar si el modelo fue creado exitosamente
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
         assertNotNull(responseEntity.getBody());
         assertEquals(responseEntity.getBody().getId(), modelController.getLastModelId());
-
-        // Puedes agregar más verificaciones según tus requisitos
     }
 
     @Test
     void testGetModelById() {
-        // Llamar al método del controlador
         Optional<Model> optionalModel = modelController.getModelbyId(1);
-
-        // Verificar si se obtuvo el modelo correctamente
         assertTrue(optionalModel.isPresent());
-
-        // Puedes agregar más verificaciones según tus requisitos
     }
 
     @Test

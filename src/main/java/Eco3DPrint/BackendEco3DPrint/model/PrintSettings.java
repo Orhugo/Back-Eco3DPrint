@@ -11,7 +11,7 @@ public class PrintSettings {
     private String printerModel;
     private boolean supports;
     private boolean payment;
-    private float price;
+    private Float price;
     private double resolution;
     private int infill;
     private String filamentBrand;
@@ -21,7 +21,7 @@ public class PrintSettings {
     public PrintSettings() {
     }
 
-    public PrintSettings(String printerBrand, String printerModel, boolean supports, boolean payment, double resolution, int infill, String filamentBrand, String filamentColor, String filamentMaterial, float price) {
+    public PrintSettings(String printerBrand, String printerModel, boolean supports, boolean payment, double resolution, int infill, String filamentBrand, String filamentColor, String filamentMaterial, Float price) {
         this.printerBrand = printerBrand;
         this.printerModel = printerModel;
         this.supports = supports;
@@ -106,11 +106,11 @@ public class PrintSettings {
         this.filamentMaterial = filamentMaterial;
     }
 
-    public double getPrice() {
+    public Float getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 

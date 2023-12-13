@@ -25,11 +25,6 @@ public class TutorialServiceImp implements TutorialService {
 
     @Override
     public ResponseEntity<Tutorial> createTutorial(Tutorial tutorial) {
-        Usuario user = userRepository.findById(tutorial.getUser().getId()).orElse(null);
-        if (user == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        tutorial.setUser(user);
         tutorialRepository.save(tutorial);
         return new ResponseEntity<>(tutorial, HttpStatus.CREATED);
     }
@@ -62,67 +57,67 @@ public class TutorialServiceImp implements TutorialService {
         }
     }
 
-    @Override
-    public ResponseEntity<Tutorial> likeTutorial(int tutorialId, int userId) {
-        Optional<TutorialVote> tutorialVote = tutorialVoteRepository.findByTutorialIdAndUserId(tutorialId, userId);
-        if (tutorialVote.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } else {
-            Optional<Tutorial> existingTutorial = tutorialRepository.findById((long) tutorialId);
-            if (existingTutorial.isPresent()) {
-                Tutorial tutorial = existingTutorial.get();
-                tutorial.setLikeCounter(tutorial.getLikeCounter() + 1);
-                tutorialVoteRepository.save(new TutorialVote(tutorialId, userId));
-                return new ResponseEntity<>(tutorial, HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @Override
-    public ResponseEntity<Boolean> dislikeTutorial(int tutorialId, int userId) {
-        Optional<TutorialVote> userVote = tutorialVoteRepository.findByTutorialIdAndUserId(tutorialId, userId);
-        if (userVote.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } else {
-            Optional<Tutorial> existingTutorial = tutorialRepository.findById((long) tutorialId);
-            if (existingTutorial.isPresent()) {
-                Tutorial tutorial = existingTutorial.get();
-                tutorial.setLikeCounter(tutorial.getLikeCounter() - 1);
-                tutorialVoteRepository.delete(userVote.get());
-                return new ResponseEntity<>(true, HttpStatus.NO_CONTENT);
-            }
-            return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @Override
-    public ResponseEntity<List<Integer>> getLikedTutorials(int userId) {
-        Optional<List<Integer>> likedTutorialsForUser = tutorialVoteRepository.findByUserId(userId);
-        return likedTutorialsForUser.map(tutorials -> new ResponseEntity<>(tutorials, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    @Override
-    public ResponseEntity<List<Usuario>> getUsersThatLikedTutorial(int tutorialId) {
-        Optional<List<Usuario>> userList = tutorialVoteRepository.findUsersByTutorialId(tutorialId);
-        if (userList.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } else {
-            List<Usuario> usersThatInteracted = userList.get();
-            return new ResponseEntity<>(usersThatInteracted, HttpStatus.OK);
-        }
-    }
-
-    @Override
-    public ResponseEntity<Integer> likeCountForTutorial(int tutorialId) {
-        Optional<Integer> likeCount = tutorialVoteRepository.findLikesByTutorialId(tutorialId);
-        if(likeCount.isPresent()){
-            int likes = likeCount.get();
-            return new ResponseEntity<>(likes, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
+//    @Override
+//    public ResponseEntity<Tutorial> likeTutorial(int tutorialId, int userId) {
+//        Optional<TutorialVote> tutorialVote = tutorialVoteRepository.findByTutorialIdAndUserId(tutorialId, userId);
+//        if (tutorialVote.isPresent()) {
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        } else {
+//            Optional<Tutorial> existingTutorial = tutorialRepository.findById((long) tutorialId);
+//            if (existingTutorial.isPresent()) {
+//                Tutorial tutorial = existingTutorial.get();
+//                tutorial.setLikeCounter(tutorial.getLikeCounter() + 1);
+//                tutorialVoteRepository.save(new TutorialVote(tutorialId, userId));
+//                return new ResponseEntity<>(tutorial, HttpStatus.OK);
+//            }
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//    }
+//
+//    @Override
+//    public ResponseEntity<Boolean> dislikeTutorial(int tutorialId, int userId) {
+//        Optional<TutorialVote> userVote = tutorialVoteRepository.findByTutorialIdAndUserId(tutorialId, userId);
+//        if (userVote.isEmpty()) {
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        } else {
+//            Optional<Tutorial> existingTutorial = tutorialRepository.findById((long) tutorialId);
+//            if (existingTutorial.isPresent()) {
+//                Tutorial tutorial = existingTutorial.get();
+//                tutorial.setLikeCounter(tutorial.getLikeCounter() - 1);
+//                tutorialVoteRepository.delete(userVote.get());
+//                return new ResponseEntity<>(true, HttpStatus.NO_CONTENT);
+//            }
+//            return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+//        }
+//    }
+//
+//    @Override
+//    public ResponseEntity<List<Integer>> getLikedTutorials(int userId) {
+//        Optional<List<Integer>> likedTutorialsForUser = tutorialVoteRepository.findByUserId(userId);
+//        return likedTutorialsForUser.map(tutorials -> new ResponseEntity<>(tutorials, HttpStatus.OK))
+//                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+//    }
+//
+//    @Override
+//    public ResponseEntity<List<Usuario>> getUsersThatLikedTutorial(int tutorialId) {
+//        Optional<List<Usuario>> userList = tutorialVoteRepository.findUsersByTutorialId(tutorialId);
+//        if (userList.isEmpty()) {
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        } else {
+//            List<Usuario> usersThatInteracted = userList.get();
+//            return new ResponseEntity<>(usersThatInteracted, HttpStatus.OK);
+//        }
+//    }
+//
+//    @Override
+//    public ResponseEntity<Integer> likeCountForTutorial(int tutorialId) {
+//        Optional<Integer> likeCount = tutorialVoteRepository.findLikesByTutorialId(tutorialId);
+//        if(likeCount.isPresent()){
+//            int likes = likeCount.get();
+//            return new ResponseEntity<>(likes, HttpStatus.OK);
+//        }
+//        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//    }
 
     @Override
     public ResponseEntity<Tutorial> getTutorialFromId(int tutorialId) {
@@ -132,5 +127,23 @@ public class TutorialServiceImp implements TutorialService {
             return new ResponseEntity<>(foundTutorial, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @Override
+    public ResponseEntity<Tutorial> enterTutorial(int tutorialId) {
+        Optional<Tutorial> tutorial = tutorialRepository.findById((long) tutorialId);
+        if(tutorial.isPresent()){
+            Tutorial foundTutorial = tutorial.get();
+            foundTutorial.setViews(foundTutorial.getViews() + 1);
+            Tutorial updatedTutorial = tutorialRepository.save(foundTutorial);
+            return new ResponseEntity<>(updatedTutorial, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @Override
+    public ResponseEntity<List<Tutorial>> getMostPopularTutorials() {
+        List<Tutorial> mostPopularTutorials = tutorialRepository.getMostPopularTutorials(7);
+        return new ResponseEntity<>(mostPopularTutorials, HttpStatus.OK);
     }
 }

@@ -12,4 +12,7 @@ import java.util.List;
 public interface TutorialRepository extends JpaRepository<Tutorial, Long> {
     @Query("SELECT t FROM Tutorial t WHERE t.id = :tutorialId")
     Tutorial findById(@Param("tutorialId") int tutorialId);
+
+    @Query("SELECT t FROM Tutorial t ORDER BY t.views DESC")
+    List<Tutorial> getMostPopularTutorials(@Param("count") int count);
 }

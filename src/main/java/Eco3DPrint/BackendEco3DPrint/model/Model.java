@@ -18,6 +18,8 @@ public class Model {
     @OneToOne
     private PrintSettings printSettings;
     private String mainUrl;
+    @Column(name= "image_url")
+    private String imageUrl;
 
     @Column(name= "like_counter")
     private int likeCounter;
@@ -25,7 +27,7 @@ public class Model {
     public Model() {
     }
 
-    public Model(String title, String description, String category, String tags, Usuario author, PrintSettings printSettings, String mainUrl) {
+    public Model(String title, String description, String category, String tags, Usuario author, PrintSettings printSettings, String mainUrl, String imageUrl) {
         this.title = title;
         this.description = description;
         this.category = category;
@@ -33,6 +35,7 @@ public class Model {
         this.author = author;
         this.printSettings = printSettings;
         this.mainUrl = mainUrl;
+        this.imageUrl = imageUrl;
     }
 
     public int getId() {
@@ -91,6 +94,12 @@ public class Model {
     }
     public void setMainUrl(String mainUrl) {
         this.mainUrl = mainUrl;
+    }
+    public String getImageUrl() {
+        return imageUrl;
+    }
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public int getLikeCounter() {

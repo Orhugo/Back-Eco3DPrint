@@ -46,6 +46,7 @@ public class ModelController {
         return modelService.getLastModelId().getId();
     }
 
+    @CrossOrigin(origins = "https://localhost:5173")
     @PostMapping("/like/{modelId}")
     public ResponseEntity<Model> likeModel(@PathVariable int modelId, @RequestParam int userId) {
         return modelService.likeModel(modelId, userId);

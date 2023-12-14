@@ -10,16 +10,21 @@ import Eco3DPrint.BackendEco3DPrint.model.Url;
 import java.util.List;
 import java.util.Optional;
 @Service
-public class UrlServiceImp implements UrlService{
+public class UrlServiceImp implements UrlService {
 
-        @Autowired
-        private UrlRepository urlRepository;
+    @Autowired
+    private UrlRepository urlRepository;
 
-        @Override
-        public Url crearUrl(Url url) {
-            return urlRepository.save(url);
-        }
-        @Override
-        public List<Url> getAllUrl(){return urlRepository.findAll();}
+    @Override
+    public Url crearUrl(Url url) {
+        return urlRepository.save(url);
     }
 
+    @Override
+    public List<Url> getAllUrl() {
+        return urlRepository.findAll();
+    }
+
+    @Override
+    public List<String> getUrlsByModel(int id_model) { return urlRepository.findById_model(id_model); }
+}

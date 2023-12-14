@@ -26,4 +26,10 @@ public class UrlController {
     public List<Url> getAllModels() {
         return urlService.getAllUrl();
     }
+
+    @CrossOrigin(origins = "http://localhost:5173")
+    @GetMapping("/getByModel")
+    public List<String> getByModel(@RequestParam("idModel") int idModel) {
+        return urlService.getUrlsByModel(idModel);
+    }
 }

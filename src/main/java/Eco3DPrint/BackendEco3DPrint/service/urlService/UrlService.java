@@ -11,4 +11,6 @@ public interface UrlService {
     public Url crearUrl(Url url);
 
     public List<Url> getAllUrl();
+
+    public List<String> getUrlsByModel(int id_model);
 }

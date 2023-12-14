@@ -28,3 +28,4 @@ public class UrlServiceImp implements UrlService {
     @Override
     public List<String> getUrlsByModel(int id_model) { return urlRepository.findById_model(id_model); }
 }
+

@@ -11,4 +11,5 @@ import java.util.List;
 public interface UrlRepository extends JpaRepository<Url, Integer> {
     @Query("SELECT u.url FROM Url u WHERE u.id_model = :id_model")
     List<String> findById_model(int id_model);
+
 }

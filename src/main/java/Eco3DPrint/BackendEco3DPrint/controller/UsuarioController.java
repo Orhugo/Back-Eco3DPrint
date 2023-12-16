@@ -57,4 +57,11 @@ public class UsuarioController {
 
         return ResponseEntity.ok(signingIn);
     }
+
+    @CrossOrigin(origins = "http://localhost:5173")
+    @PatchMapping("/{idUsuario}/updateProfileImage")
+    public ResponseEntity<?> updateProfileImage(@PathVariable int idUsuario, @RequestBody String nuevaImagen) {
+        usuarioService.updateProfileImage(idUsuario, nuevaImagen);
+        return ResponseEntity.ok().build();
+    }
 }

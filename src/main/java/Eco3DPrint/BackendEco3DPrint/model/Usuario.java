@@ -14,6 +14,9 @@ public class Usuario {
     private String lastname;
     private String email;
     private String password;
+
+    @Column(name= "profile_image")
+    private String imageUrl;
     @OneToMany(mappedBy = "author")
     private Collection<Model> models;
     public Usuario() {
@@ -23,12 +26,13 @@ public class Usuario {
         return id;
     }
 
-    public Usuario(String username, String name, String lastname, String email, String password) {
+    public Usuario(String username, String name, String lastname, String email, String password, String imageUrl) {
         this.username = username;
         this.name = name;
         this.lastname = lastname;
         this.email = email;
         this.password = password;
+        this.imageUrl = imageUrl;
     }
 
     public String getUsername() {
@@ -73,5 +77,11 @@ public class Usuario {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    public String getImageUrl() {
+        return imageUrl;
+    }
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

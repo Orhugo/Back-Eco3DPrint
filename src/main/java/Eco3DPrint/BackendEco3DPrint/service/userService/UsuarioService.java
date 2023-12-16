@@ -66,4 +66,9 @@ public interface UsuarioService {
      * @return An {@link Optional} containing the user if found, or an empty {@link Optional} otherwise.
      */
     public Optional<Usuario> getUserByEmail(String email);
+
+    /**
+    Updates the associated image url for the user of the given id
+     */
+    public void updateProfileImage(int idUsuario, String nuevaImagen);
 }

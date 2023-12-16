@@ -20,6 +20,14 @@ public class UsuarioServiceImple implements UsuarioService {
     public Usuario saveUser(Usuario user) {
         return userRepository.save(user);
     }
+    @Override
+    public void updateProfileImage(int idUsuario, String nuevaImagen) {
+        Usuario usuario = userRepository.findById(idUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        usuario.setImageUrl(nuevaImagen);
+        userRepository.save(usuario);
+    }
 
     @Override
     public Optional<Usuario> getUserbyId(int id) {return userRepository.findById(id);}

@@ -98,4 +98,6 @@ public interface ModelService {
     ResponseEntity<List<Integer>> getLikedModels(int userId);
 
     public List<Model> getModelsByAuthorId(String author);
+
+    ResponseEntity<Model> enterModel(int modelId);
 }

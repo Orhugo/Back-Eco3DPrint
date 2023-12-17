@@ -105,4 +105,16 @@ public class ModelServiceImp implements ModelService {
     public List<Model> getModelsByAuthorId(String author) {
         return (List<Model>) modelRepository.findByAuthorId(author);
     }
+
+    @Override
+    public ResponseEntity<Model> enterModel(int modelId) {
+        Optional<Model> model = modelRepository.findById(modelId);
+        if(model.isPresent()){
+            Model foundModel = model.get();
+            foundModel.setViews(foundModel.getViews() + 1);
+            Model updatedModel = modelRepository.save(foundModel);
+            return new ResponseEntity<>(updatedModel, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }

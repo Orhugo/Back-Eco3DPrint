@@ -76,4 +76,9 @@ public class ModelController {
     public List<Model> getAuthorModels(@RequestParam String author) {
         return modelService.getModelsByAuthorId(author);
     }
+
+    @PostMapping("/enter/{modelId}")
+    public ResponseEntity<Model> enterModel(@PathVariable int modelId){
+        return modelService.enterModel(modelId);
+    }
 }

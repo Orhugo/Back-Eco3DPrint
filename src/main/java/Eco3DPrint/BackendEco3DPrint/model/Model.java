@@ -24,6 +24,9 @@ public class Model {
     @Column(name= "like_counter")
     private int likeCounter;
 
+    @Column(name= "views")
+    private int views;
+
     public Model() {
     }
 
@@ -108,5 +111,13 @@ public class Model {
 
     public void setLikeCounter(int likeCounter) {
         this.likeCounter = likeCounter;
+    }
+
+    public int getViews() {
+        return views;
+    }
+
+    public void setViews(int views) {
+        this.views = views;
     }
 }
